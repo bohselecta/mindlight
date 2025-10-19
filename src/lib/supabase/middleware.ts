@@ -1,5 +1,11 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+interface CookieToSet {
+  name: string;
+  value: string;
+  options?: any;
+}
+
 export async function updateSession(request: NextRequest) {
   // Skip auth checks if Supabase is not configured
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
@@ -24,7 +30,7 @@ export async function updateSession(request: NextRequest) {
           getAll() {
             return request.cookies.getAll()
           },
-          setAll(cookiesToSet) {
+          setAll(cookiesToSet: CookieToSet[]) {
             cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
             supabaseResponse = NextResponse.next({
               request,
