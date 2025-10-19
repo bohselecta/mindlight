@@ -26,6 +26,12 @@ export function SignInButton({
 
     try {
       const supabase = createClient();
+      
+      if (!supabase) {
+        setMessage('Sync not available - please check configuration');
+        return;
+      }
+
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {

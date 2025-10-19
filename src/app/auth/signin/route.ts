@@ -4,12 +4,14 @@ import { redirect } from 'next/navigation'
 export async function GET(request: Request) {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  if (supabase) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  if (user) {
-    redirect('/profile')
+    if (user) {
+      redirect('/profile')
+    }
   }
 
   return new Response(`
@@ -30,6 +32,7 @@ export async function GET(request: Request) {
           input { padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; }
           button { padding: 0.75rem; background: linear-gradient(to right, #06b6d4, #3b82f6); color: white; border: none; border-radius: 0.5rem; font-weight: 500; }
           .privacy { background: #f0f9ff; border: 1px solid #bae6fd; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; font-size: 0.875rem; color: #0369a1; }
+          .disabled { opacity: 0.5; pointer-events: none; }
         </style>
       </head>
       <body>
@@ -42,9 +45,9 @@ export async function GET(request: Request) {
           <h2>Sign in to sync your data</h2>
           <p>Get a magic link sent to your email to sign in securely</p>
           
-          <form method="post">
+          <form method="post" ${!supabase ? 'class="disabled"' : ''}>
             <input type="email" name="email" placeholder="Enter your email address" required />
-            <button type="submit">Send Magic Link</button>
+            <button type="submit">${supabase ? 'Send Magic Link' : 'Sync Not Available'}</button>
           </form>
           
           <div class="privacy">
@@ -59,10 +62,15 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const supabase = await createClient()
+  
+  if (!supabase) {
+    return redirect('/auth/signin?error=Sync not available')
+  }
+
   const formData = await request.formData()
   const email = String(formData.get('email'))
-  const supabase = await createClient()
-
+  
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
