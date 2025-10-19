@@ -82,6 +82,8 @@ export interface AutonomyProfile {
 }
 
 export interface StreakData {
+  id?: number; // Auto-incrementing ID from database
+  userId: string;
   current: number;
   longest: number;
   lastActivity: Date;

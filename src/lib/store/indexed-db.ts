@@ -250,6 +250,7 @@ export class LocalAutonomyStore implements AutonomyStore {
     
     if (!streak) {
       return {
+        userId: this.userId,
         current: 0,
         longest: 0,
         lastActivity: new Date(),

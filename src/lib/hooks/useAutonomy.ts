@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { UserResponse, AutonomyProfile, ScoreOutput } from '@/types';
+import { UserResponse, AutonomyProfile, ScoreOutput, ExportedData } from '@/types';
 import { calculateScores } from '@/lib/scoring/scoring-engine';
 import { createAutonomyStore } from '@/lib/store/autonomy-store';
 
@@ -96,9 +96,17 @@ export function useProfile() {
       
       const newProfile: AutonomyProfile = {
         userId: 'default_user',
-        scores: scoreOutput.scores,
+        scores: {
+          ...scoreOutput.scores,
+          EH: { raw: 0, ci_lower: 0, ci_upper: 0, ci_width: 0, n_items: 0, alpha: 0 },
+          II: { raw: 0, ci_lower: 0, ci_upper: 0, ci_width: 0, n_items: 0, alpha: 0 }
+        },
         composite_autonomy: scoreOutput.composite_autonomy,
-        interpretation: scoreOutput.interpretation,
+        interpretation: {
+          ...scoreOutput.interpretation,
+          EH: 'low' as const,
+          II: 'low' as const
+        },
         lastUpdated: new Date(),
         version: scoreOutput.version
       };

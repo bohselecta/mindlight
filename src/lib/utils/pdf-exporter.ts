@@ -246,15 +246,18 @@ export class PDFExporter {
 
     // Add profile summary
     this.addSection('Profile Summary', [
-      `Epistemic Autonomy Index: ${data.profile.scores.EAI.toFixed(1)}`,
-      `Reflective Flexibility: ${data.profile.scores.RF.toFixed(1)}`,
-      `Source Awareness: ${data.profile.scores.SA.toFixed(1)}`,
-      `Affect Regulation in Debate: ${data.profile.scores.ARD.toFixed(1)}`,
+      `Epistemic Autonomy Index: ${data.profile.scores.EAI.raw.toFixed(1)}`,
+      `Reflective Flexibility: ${data.profile.scores.RF.raw.toFixed(1)}`,
+      `Source Awareness: ${data.profile.scores.SA.raw.toFixed(1)}`,
+      `Affect Regulation in Debate: ${data.profile.scores.ARD.raw.toFixed(1)}`,
       `Last updated: ${new Date(data.profile.lastUpdated).toLocaleDateString()}`
     ]);
 
     // Add score visualization
-    this.addScoreChart(data.profile.scores);
+    const scoreValues = Object.fromEntries(
+      Object.entries(data.profile.scores).map(([construct, score]) => [construct, score.raw])
+    );
+    this.addScoreChart(scoreValues);
 
     // Add streak information
     this.addSection('Reflection Streak', [

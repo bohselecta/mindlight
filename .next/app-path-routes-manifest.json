@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/library/[slug]/page": "/library/[slug]",
+  "/library/page": "/library",
+  "/loops/argument-flip/page": "/loops/argument-flip",
+  "/loops/disconfirm/page": "/loops/disconfirm",
+  "/loops/influence/page": "/loops/influence",
+  "/loops/source-audit/page": "/loops/source-audit",
+  "/mirrors/identity/page": "/mirrors/identity",
+  "/mirrors/schema/page": "/mirrors/schema",
+  "/loops/echo/page": "/loops/echo",
+  "/mirrors/baseline/page": "/mirrors/baseline",
+  "/page": "/",
+  "/reflect/page": "/reflect",
+  "/progress/page": "/progress",
+  "/settings/page": "/settings"
+}

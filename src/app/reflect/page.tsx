@@ -77,7 +77,7 @@ export default function ReflectPage() {
 
     const reflection: DailyReflection = {
       id: crypto.randomUUID(),
-      userId,
+      userId: userId(),
       date: new Date(),
       prompt: currentPrompt,
       category: selectedCategory as DailyReflection['category'],
@@ -198,7 +198,7 @@ export default function ReflectPage() {
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             {categories.map((category) => {
-              const Icon = category.icon;
+              const IconComponent = category.icon as React.ComponentType<{ className?: string }>;
               return (
                 <button
                   key={category.id}
@@ -209,7 +209,7 @@ export default function ReflectPage() {
                   )}
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <Icon className="w-6 h-6" />
+                    <IconComponent className="w-6 h-6" />
                     <h3 className="text-lg font-medium">{category.label}</h3>
                   </div>
                   <p className="text-sm opacity-80">
@@ -261,10 +261,10 @@ export default function ReflectPage() {
           <div className="flex items-center gap-3 mb-4">
             {(() => {
               const category = categories.find(c => c.id === selectedCategory);
-              const Icon = category?.icon;
+              const IconComponent = category?.icon as React.ComponentType<{ className?: string }>;
               return (
                 <>
-                  <Icon className="w-6 h-6 text-slate-300" />
+                  <IconComponent className="w-6 h-6 text-slate-300" />
                   <h1 className="text-2xl font-light text-slate-100">{category?.label}</h1>
                 </>
               );

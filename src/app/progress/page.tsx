@@ -7,7 +7,10 @@ import { TrendChart } from '@/components/visualizations/TrendChart';
 import { useProfile } from '@/lib/hooks/useAutonomy';
 import { useStreak } from '@/lib/hooks/useStreak';
 import { useProgress } from '@/lib/hooks/useProgress';
+import { useAutonomy } from '@/lib/hooks/useAutonomy';
+import { autonomyStore } from '@/lib/store/autonomy-store';
 import { useRouter } from 'next/navigation';
+import { Badge } from '@/types';
 import { TrendingUp, Calendar, Target, Download, RefreshCw, Award, Trophy, Star, Brain, Heart, Shield, Network, Scale, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { pdfExporter, PDFReportData } from '@/lib/utils/pdf-exporter';
@@ -43,8 +46,8 @@ export default function ProgressDashboardPage() {
     // Load Phase 2 data
     const loadPhase2Data = async () => {
       try {
-        const { userId } = await import('@/lib/hooks/useAutonomy');
-        const user = await userId();
+        const { userId } = useAutonomy();
+        const user = userId();
         if (!user) return;
 
         const [
@@ -54,7 +57,7 @@ export default function ProgressDashboardPage() {
           influenceSources,
           reflections
         ] = await Promise.all([
-          autonomyStore.getBadges(user),
+          autonomyStore.checkBadges(),
           autonomyStore.getDisconfirmGames(user),
           autonomyStore.getSchemaReclaims(user),
           autonomyStore.getInfluenceSources(user),
@@ -82,8 +85,8 @@ export default function ProgressDashboardPage() {
     // Load Phase 3 data
     const loadPhase3Data = async () => {
       try {
-        const { userId } = await import('@/lib/hooks/useAutonomy');
-        const user = await userId();
+        const { userId } = useAutonomy();
+        const user = userId();
         if (!user) return;
 
         const [
@@ -117,8 +120,8 @@ export default function ProgressDashboardPage() {
 
   const handleExport = async () => {
     try {
-      const { userId } = await import('@/lib/hooks/useAutonomy');
-      const user = await userId();
+      const { userId } = useAutonomy();
+      const user = userId();
       if (!user || !profile) return;
 
       // Gather all data for PDF report
@@ -129,7 +132,7 @@ export default function ProgressDashboardPage() {
         schemaReclaims,
         influenceSources
       ] = await Promise.all([
-        autonomyStore.getBadges(user),
+        autonomyStore.checkBadges(),
         autonomyStore.getDailyReflections(user),
         autonomyStore.getDisconfirmGames(user),
         autonomyStore.getSchemaReclaims(user),
@@ -337,7 +340,7 @@ export default function ProgressDashboardPage() {
               key={construct}
               construct={construct as any}
               score={score}
-              interpretation={profile.interpretation[construct as any]}
+              interpretation={profile.interpretation[construct as keyof typeof profile.interpretation]}
             />
           ))}
         </div>

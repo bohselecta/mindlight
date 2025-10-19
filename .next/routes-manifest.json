@@ -1,0 +1,134 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/library/[slug]",
+      "regex": "^/library/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/library/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/library",
+      "regex": "^/library(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/library(?:/)?$"
+    },
+    {
+      "page": "/loops/argument-flip",
+      "regex": "^/loops/argument\\-flip(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/loops/argument\\-flip(?:/)?$"
+    },
+    {
+      "page": "/loops/disconfirm",
+      "regex": "^/loops/disconfirm(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/loops/disconfirm(?:/)?$"
+    },
+    {
+      "page": "/loops/echo",
+      "regex": "^/loops/echo(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/loops/echo(?:/)?$"
+    },
+    {
+      "page": "/loops/influence",
+      "regex": "^/loops/influence(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/loops/influence(?:/)?$"
+    },
+    {
+      "page": "/loops/source-audit",
+      "regex": "^/loops/source\\-audit(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/loops/source\\-audit(?:/)?$"
+    },
+    {
+      "page": "/mirrors/baseline",
+      "regex": "^/mirrors/baseline(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/mirrors/baseline(?:/)?$"
+    },
+    {
+      "page": "/mirrors/identity",
+      "regex": "^/mirrors/identity(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/mirrors/identity(?:/)?$"
+    },
+    {
+      "page": "/mirrors/schema",
+      "regex": "^/mirrors/schema(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/mirrors/schema(?:/)?$"
+    },
+    {
+      "page": "/progress",
+      "regex": "^/progress(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/progress(?:/)?$"
+    },
+    {
+      "page": "/reflect",
+      "regex": "^/reflect(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/reflect(?:/)?$"
+    },
+    {
+      "page": "/settings",
+      "regex": "^/settings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

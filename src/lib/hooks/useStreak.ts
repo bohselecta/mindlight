@@ -12,6 +12,7 @@ const store = createAutonomyStore();
 
 export function useStreak() {
   const [streak, setStreak] = useState<StreakData>({
+    userId: 'default-user',
     current: 0,
     longest: 0,
     lastActivity: new Date(),

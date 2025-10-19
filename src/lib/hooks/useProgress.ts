@@ -17,7 +17,9 @@ export function useProgress() {
       EAI: 'stable',
       RF: 'stable',
       SA: 'stable',
-      ARD: 'stable'
+      ARD: 'stable',
+      EH: 'stable',
+      II: 'stable'
     },
     ahaMoments: []
   });
@@ -35,7 +37,9 @@ export function useProgress() {
             EAI: 'stable',
             RF: 'stable',
             SA: 'stable',
-            ARD: 'stable'
+            ARD: 'stable',
+            EH: 'stable',
+            II: 'stable'
           },
           ahaMoments: []
         });
@@ -74,12 +78,14 @@ export function useProgress() {
       EAI: 'stable',
       RF: 'stable',
       SA: 'stable',
-      ARD: 'stable'
+      ARD: 'stable',
+      EH: 'stable',
+      II: 'stable'
     };
 
     if (historicalScores.length < 2) return trends;
 
-    const constructs: Construct[] = ['EAI', 'RF', 'SA', 'ARD'];
+    const constructs: Construct[] = ['EAI', 'RF', 'SA', 'ARD', 'EH', 'II'];
     
     constructs.forEach(construct => {
       const scores = historicalScores.map(h => h.scores[construct]);
@@ -132,14 +138,16 @@ export function useProgress() {
 
     const scores = profile.scores;
     const lowestConstruct = Object.entries(scores).reduce((lowest, [construct, score]) => {
-      return score.raw < scores[lowest as Construct].raw ? construct : lowest;
-    }, 'EAI') as Construct;
+      return score.raw < scores[lowest as Construct].raw ? construct as Construct : lowest;
+    }, 'EAI' as Construct);
 
     const suggestions = {
       EAI: 'Baseline Mirror',
       RF: 'Disconfirm Practice',
       SA: 'Influence Map',
-      ARD: 'Schema Reclaim'
+      ARD: 'Schema Reclaim',
+      EH: 'Argument Flip',
+      II: 'Source Audit'
     };
 
     return {

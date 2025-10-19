@@ -268,7 +268,7 @@ export class BadgeEngine {
     };
 
     const unlockedBadges: Badge[] = [];
-    const existingBadgeIds = new Set(existingBadges.map(b => b.badgeId));
+    const existingBadgeIds = new Set(existingBadges.map((b: Badge) => b.badgeId));
 
     // Check each badge definition
     for (const badgeDef of badgeDefinitions) {
