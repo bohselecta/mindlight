@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
 import { OnboardingWrapper } from '@/components/onboarding/OnboardingWrapper';
+import { AuthProvider } from '@/components/auth/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Mindlight - Epistemic Autonomy Training',
@@ -32,11 +33,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="antialiased">
-        <PWAProvider>
-          <OnboardingWrapper>
-            {children}
-          </OnboardingWrapper>
-        </PWAProvider>
+        <AuthProvider>
+          <PWAProvider>
+            <OnboardingWrapper>
+              {children}
+            </OnboardingWrapper>
+          </PWAProvider>
+        </AuthProvider>
       </body>
     </html>
   );

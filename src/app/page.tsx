@@ -5,11 +5,36 @@ import Link from 'next/link';
 import { Sparkles, Brain, Target, TrendingUp, Shield, ArrowRight, Heart, Network, BookOpen, Award, Scale, Search, CheckCircle, Clock } from 'lucide-react';
 import { useModuleCompletion } from '@/lib/hooks/useModuleCompletion';
 import { CompletionBadge } from '@/components/ui/CompletionIndicator';
+import { SignInButton } from '@/components/auth/SignInButton';
+import { UserMenu } from '@/components/auth/UserMenu';
+import { useAuth } from '@/components/auth/AuthProvider';
+import { FloatingSyncStatus } from '@/components/sync/SyncStatus';
 
 export default function LandingPage() {
   const { getCompletionStatus, getCompletionCount, getTotalModules, loading } = useModuleCompletion();
+  const { user } = useAuth();
+  
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      {/* Header */}
+      <div className="border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img src="/hero-logo.svg" alt="Mindlight" className="h-8" />
+              <span className="text-xl font-bold text-slate-900">Mindlight</span>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {user ? (
+                <UserMenu />
+              ) : (
+                <SignInButton variant="outline" size="sm" />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50/30">
         <div className="max-w-7xl mx-auto px-6 py-24">
@@ -39,7 +64,7 @@ export default function LandingPage() {
               
               <div className="flex items-center gap-2 px-6 py-4 bg-emerald-50/80 backdrop-blur border border-emerald-200 rounded-xl">
                 <Shield className="w-5 h-5 text-emerald-600" />
-                <span className="text-sm text-emerald-800 font-medium">No data leaves your device</span>
+                <span className="text-sm text-emerald-800 font-medium">Your data stays private</span>
               </div>
             </div>
             
@@ -441,27 +466,27 @@ export default function LandingPage() {
                 <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
                   <Shield className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="font-semibold text-slate-900 mb-2">Your Data Stays On Device</h3>
+                <h3 className="font-semibold text-slate-900 mb-2">Client-Side Encryption</h3>
                 <p className="text-slate-600 text-sm" style={{ lineHeight: '1.6' }}>
-                  All assessments and progress data remain private on your device. No cloud storage, no accounts required.
+                  Your data is encrypted on your device before sync. We can't read your assessments or progress.
                 </p>
               </div>
               <div className="flex flex-col items-center text-center">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                  <Award className="w-6 h-6 text-blue-600" />
+                  <Network className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="font-semibold text-slate-900 mb-2">Research-Backed Methods</h3>
+                <h3 className="font-semibold text-slate-900 mb-2">Sync Across Devices</h3>
                 <p className="text-slate-600 text-sm" style={{ lineHeight: '1.6' }}>
-                  Based on cognitive science research on epistemic autonomy, metacognition, and bias detection.
+                  Optional cloud sync lets you access your progress from any device. Works offline-first by default.
                 </p>
               </div>
               <div className="flex flex-col items-center text-center">
                 <div className="w-12 h-12 bg-violet-100 rounded-full flex items-center justify-center mb-4">
-                  <Heart className="w-6 h-6 text-violet-600" />
+                  <Award className="w-6 h-6 text-violet-600" />
                 </div>
-                <h3 className="font-semibold text-slate-900 mb-2">No Tracking</h3>
+                <h3 className="font-semibold text-slate-900 mb-2">Research-Backed Methods</h3>
                 <p className="text-slate-600 text-sm" style={{ lineHeight: '1.6' }}>
-                  We don't track your usage, collect analytics, or share any information. Complete privacy guaranteed.
+                  Based on cognitive science research on epistemic autonomy, metacognition, and bias detection.
                 </p>
               </div>
             </div>
@@ -493,6 +518,9 @@ export default function LandingPage() {
           </p>
         </div>
       </div>
+      
+      {/* Floating Sync Status */}
+      <FloatingSyncStatus />
     </div>
   );
 }
