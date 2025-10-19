@@ -1,8 +1,13 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Sparkles, Brain, Target, TrendingUp, Shield, ArrowRight, Heart, Network, BookOpen, Award, Scale, Search, CheckCircle, Clock } from 'lucide-react';
+import { useModuleCompletion } from '@/lib/hooks/useModuleCompletion';
+import { CompletionBadge } from '@/components/ui/CompletionIndicator';
 
 export default function LandingPage() {
+  const { getCompletionStatus, getCompletionCount, getTotalModules, loading } = useModuleCompletion();
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
       {/* Hero Section */}
@@ -45,6 +50,22 @@ export default function LandingPage() {
               <Clock className="w-4 h-4" />
               <span>5 minutes • Get your autonomy score</span>
             </div>
+            
+            {/* Progress indicator */}
+            {!loading && getTotalModules() > 0 && (
+              <div className="mt-8 flex items-center justify-center gap-3">
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+                  <span>{getCompletionCount()} of {getTotalModules()} modules completed</span>
+                </div>
+                <div className="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-500"
+                    style={{ width: `${(getCompletionCount() / getTotalModules()) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -177,7 +198,7 @@ export default function LandingPage() {
                 Explore how your values align with group expectations and identify potential identity fusion.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500">Phase 1</span>
+                <CompletionBadge completion={getCompletionStatus('identity')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-violet-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -198,7 +219,7 @@ export default function LandingPage() {
                 Train bias detection through interactive headline pairs and metacognitive feedback.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-emerald-400">Recommended</span>
+                <CompletionBadge completion={getCompletionStatus('echo')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -233,7 +254,7 @@ export default function LandingPage() {
                 Practice falsifiability thinking by identifying conditions that would disprove your beliefs.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-amber-400">Phase 2</span>
+                <CompletionBadge completion={getCompletionStatus('disconfirm')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -254,7 +275,7 @@ export default function LandingPage() {
                 Emotional regulation techniques to decouple feelings from belief certainty.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-rose-400">Phase 2</span>
+                <CompletionBadge completion={getCompletionStatus('schema')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-rose-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -275,7 +296,7 @@ export default function LandingPage() {
                 Visualize your information sources and detect echo chamber patterns.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-cyan-400">Phase 2</span>
+                <CompletionBadge completion={getCompletionStatus('influence')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -296,7 +317,7 @@ export default function LandingPage() {
                 Practice steelmanning opposing views with intellectual charity and accuracy.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-indigo-400">Phase 3</span>
+                <CompletionBadge completion={getCompletionStatus('argument-flip')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -317,7 +338,7 @@ export default function LandingPage() {
                 Daily provenance journaling to track belief origins and source dependencies.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-teal-400">Phase 3</span>
+                <CompletionBadge completion={getCompletionStatus('source-audit')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -352,7 +373,7 @@ export default function LandingPage() {
                 Track your autonomy growth with visual dashboards, streak tracking, and personalized insights.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500">Analytics</span>
+                <CompletionBadge completion={getCompletionStatus('progress')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -373,7 +394,7 @@ export default function LandingPage() {
                 Educational explainers on cognitive biases, epistemic autonomy, and metacognitive skills.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500">Education</span>
+                <CompletionBadge completion={getCompletionStatus('library')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
@@ -394,7 +415,7 @@ export default function LandingPage() {
                 Manage your data, export results, and customize your experience.
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500">Tools</span>
+                <CompletionBadge completion={getCompletionStatus('settings')} />
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-slate-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
