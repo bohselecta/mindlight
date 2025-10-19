@@ -98,3 +98,4 @@ temp/
 # Keep the logo files
 !public/logo.svg
 !public/logo.png
+!public/hero-logo.svg
