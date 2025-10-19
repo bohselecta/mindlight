@@ -15,7 +15,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 py-24">
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-8">
-              <img src="/logo.svg" alt="Mindlight" className="h-16" />
+              <img src="/logo.svg" alt="Mindlight" className="h-[85px]" />
               <h1 className="text-5xl font-light tracking-tight">Mindlight</h1>
             </div>
             
