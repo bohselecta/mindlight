@@ -85,7 +85,6 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
 
 # Storybook build outputs
 .out
@@ -94,8 +93,3 @@ public
 # Temporary folders
 tmp/
 temp/
-
-# Keep the logo files
-!public/logo.svg
-!public/logo.png
-!public/hero-logo.svg
