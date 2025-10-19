@@ -15,9 +15,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 py-24">
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-violet-400 rounded-2xl flex items-center justify-center">
-                <img src="/logo.svg" alt="Mindlight" className="w-10 h-10" />
-              </div>
+              <img src="/logo.svg" alt="Mindlight" className="h-16" />
               <h1 className="text-5xl font-light tracking-tight">Mindlight</h1>
             </div>
             
@@ -138,7 +136,7 @@ export default function LandingPage() {
                   <Brain className="w-8 h-8 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <h3 className="text-2xl font-medium text-slate-100 group-hover:text-blue-300 transition-colors">
                       Baseline Mirror
                     </h3>
