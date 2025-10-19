@@ -1,17 +1,17 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/library/[slug]/page": "app/library/[slug]/page.js",
-  "/loops/influence/page": "app/loops/influence/page.js",
-  "/loops/source-audit/page": "app/loops/source-audit/page.js",
-  "/mirrors/baseline/page": "app/mirrors/baseline/page.js",
+  "/library/page": "app/library/page.js",
+  "/loops/disconfirm/page": "app/loops/disconfirm/page.js",
   "/loops/echo/page": "app/loops/echo/page.js",
+  "/loops/influence/page": "app/loops/influence/page.js",
+  "/mirrors/baseline/page": "app/mirrors/baseline/page.js",
+  "/loops/source-audit/page": "app/loops/source-audit/page.js",
   "/mirrors/identity/page": "app/mirrors/identity/page.js",
+  "/mirrors/schema/page": "app/mirrors/schema/page.js",
+  "/library/[slug]/page": "app/library/[slug]/page.js",
   "/page": "app/page.js",
   "/progress/page": "app/progress/page.js",
-  "/reflect/page": "app/reflect/page.js",
   "/settings/page": "app/settings/page.js",
-  "/loops/disconfirm/page": "app/loops/disconfirm/page.js",
-  "/mirrors/schema/page": "app/mirrors/schema/page.js",
-  "/loops/argument-flip/page": "app/loops/argument-flip/page.js",
-  "/library/page": "app/library/page.js"
+  "/reflect/page": "app/reflect/page.js",
+  "/loops/argument-flip/page": "app/loops/argument-flip/page.js"
 }

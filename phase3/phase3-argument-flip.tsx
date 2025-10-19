@@ -475,7 +475,7 @@ export default function ArgumentFlip() {
       };
       if (avg >= 40) return {
         level: 'Developing',
-        message: 'You struggled to restate this fairly. Notice where defensiveness crept in—that's the edge of your epistemic comfort zone.',
+        message: `You struggled to restate this fairly. Notice where defensiveness crept in—that's the edge of your epistemic comfort zone.`,
         icon: Brain,
         color: 'amber'
       };

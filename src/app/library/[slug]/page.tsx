@@ -26,7 +26,7 @@ const explainers = [
   'cognitive-inoculation'
 ];
 
-const categoryColors = {
+const categoryColors: Record<string, string> = {
   'Information Patterns': 'cyan',
   'Cognitive Patterns': 'violet',
   'Social Psychology': 'rose',
@@ -111,7 +111,7 @@ export default function ExplainerPage() {
           <div className="mt-12">
             <h3 className="text-lg font-medium text-slate-200 mb-4">Related Modules</h3>
             <div className="flex flex-wrap gap-2">
-              {explainerContent.relatedModules.map((module) => (
+              {explainerContent.relatedModules.map((module: string) => (
                 <span
                   key={module}
                   className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-lg text-sm"

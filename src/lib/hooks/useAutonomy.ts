@@ -160,3 +160,14 @@ export function useExport() {
 
   return { exportData, exportCSV };
 }
+
+// Combined hook for convenience
+export function useAutonomy() {
+  return {
+    useResponses,
+    useProfile,
+    useExport,
+    userId: () => 'default-user', // For now, return a default user ID
+    loading: false // For now, no loading state
+  };
+}

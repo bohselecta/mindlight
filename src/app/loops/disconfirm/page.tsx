@@ -147,7 +147,7 @@ export default function DisconfirmGamePage() {
     const overallScore = calculateOverallScore();
     const gameData: DisconfirmGame = {
       id: crypto.randomUUID(),
-      userId,
+      userId: userId(),
       belief,
       falsifiers,
       overallScore,
@@ -187,42 +187,55 @@ export default function DisconfirmGamePage() {
 
   if (stage === 'intro') {
     return (
-      <AssessmentWrapper
-        title="Disconfirm Game"
-        description="Can you name what would change your mind?"
-        progress={progress}
-        onNext={() => setStage('belief')}
-        nextLabel="Start Game →"
-        icon={<Brain className="w-5 h-5 text-white" />}
-        showNav={false}
-      >
-        <div className="space-y-6">
-          <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 space-y-4">
-            <h2 className="text-lg font-medium text-slate-200">How it works</h2>
-            <ol className="space-y-3 text-slate-400">
-              <li className="flex gap-3">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">1</span>
-                <span>State a belief you hold strongly</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">2</span>
-                <span>List specific conditions that would change your mind</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">3</span>
-                <span>Get scored on specificity vs. vagueness</span>
-              </li>
-            </ol>
-          </div>
-
-          <div className="bg-purple-900/20 border border-purple-700/30 rounded-xl p-4">
-            <p className="text-sm text-purple-300 leading-relaxed">
-              <strong className="text-purple-200">Why this matters:</strong> Beliefs that can't be falsified aren't beliefs—they're identities. 
-              This exercise helps you spot the difference.
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+        <div className="max-w-4xl mx-auto pt-12 px-6">
+          <div className="text-center mb-12">
+            <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Brain className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-light text-slate-100 mb-4">Disconfirm Game</h1>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              Can you name what would change your mind?
             </p>
           </div>
+          
+          <div className="space-y-6">
+            <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 space-y-4">
+              <h2 className="text-lg font-medium text-slate-200">How it works</h2>
+              <ol className="space-y-3 text-slate-400">
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">1</span>
+                  <span>State a belief you hold strongly</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">2</span>
+                  <span>List specific conditions that would change your mind</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">3</span>
+                  <span>Get scored on specificity vs. vagueness</span>
+                </li>
+              </ol>
+            </div>
+
+            <div className="bg-purple-900/20 border border-purple-700/30 rounded-xl p-4">
+              <p className="text-sm text-purple-300 leading-relaxed">
+                <strong className="text-purple-200">Why this matters:</strong> Beliefs that can't be falsified aren't beliefs—they're identities. 
+                This exercise helps you spot the difference.
+              </p>
+            </div>
+          </div>
+          
+          <div className="text-center mt-8">
+            <button
+              onClick={() => setStage('belief')}
+              className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-xl font-medium transition-all text-lg"
+            >
+              Start Game →
+            </button>
+          </div>
         </div>
-      </AssessmentWrapper>
+      </div>
     );
   }
 

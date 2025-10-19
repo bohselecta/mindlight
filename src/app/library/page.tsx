@@ -71,7 +71,7 @@ const explainers = [
   }
 ];
 
-const categoryColors = {
+const categoryColors: Record<string, string> = {
   'Information Patterns': 'cyan',
   'Cognitive Patterns': 'violet',
   'Social Psychology': 'rose',
