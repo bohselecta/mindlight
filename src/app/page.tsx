@@ -129,18 +129,18 @@ export default function LandingPage() {
           <div className="max-w-2xl mx-auto mb-16">
             <Link
               href="/mirrors/baseline"
-              className="group bg-gradient-to-br from-slate-800/80 to-slate-700/80 backdrop-blur border-2 border-blue-500/50 rounded-3xl p-8 hover:border-blue-400/70 transition-all shadow-xl shadow-blue-500/10"
+              className="group rounded-3xl p-8 hover:border-blue-400/70 transition-all"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0">
                   <Brain className="w-8 h-8 text-white" />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <h3 className="text-2xl font-medium text-slate-100 group-hover:text-blue-300 transition-colors">
                       Baseline Mirror
                     </h3>
-                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full border border-blue-500/30">
+                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full border border-blue-500/30 whitespace-nowrap">
                       Start Here
                     </span>
                   </div>
@@ -162,7 +162,7 @@ export default function LandingPage() {
                     <span>36 questions</span>
                   </div>
                 </div>
-                <ArrowRight className="w-6 h-6 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
+                <ArrowRight className="w-6 h-6 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
               </div>
             </Link>
           </div>
