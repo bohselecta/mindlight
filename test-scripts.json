@@ -1,0 +1,17 @@
+/**
+ * Test Scripts for Phase 2
+ * 
+ * Run tests with: npm test
+ * Run tests in watch mode: npm run test:watch
+ * Run tests with coverage: npm run test:coverage
+ */
+
+{
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:phase2": "jest src/__tests__/phase2.test.ts",
+    "test:integration": "jest src/__tests__/phase2-integration.test.ts"
+  }
+}

@@ -19,14 +19,18 @@ const constructLabels = {
   EAI: 'Epistemic Autonomy Index',
   RF: 'Reflective Flexibility',
   SA: 'Source Awareness', 
-  ARD: 'Affect Regulation in Debate'
+  ARD: 'Affect Regulation in Debate',
+  EH: 'Epistemic Honesty',
+  II: 'Intellectual Independence'
 };
 
 const constructDescriptions = {
   EAI: 'Independence in belief formation from external identities and authorities',
   RF: 'Willingness and ability to revise beliefs in light of counter-evidence',
   SA: 'Conscious tracking of information provenance and source diversity',
-  ARD: 'Capacity to manage emotional reactivity when beliefs are challenged'
+  ARD: 'Capacity to manage emotional reactivity when beliefs are challenged',
+  EH: 'Ability to fairly represent opposing arguments without strawmanning',
+  II: 'Source diversity and evidence verification habits'
 };
 
 const interpretationStyles = {

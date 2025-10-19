@@ -19,14 +19,18 @@ const constructLabels = {
   EAI: 'Epistemic Autonomy',
   RF: 'Reflective Flexibility', 
   SA: 'Source Awareness',
-  ARD: 'Affect Regulation'
+  ARD: 'Affect Regulation',
+  EH: 'Epistemic Honesty',
+  II: 'Intellectual Independence'
 };
 
 const constructColors = {
   EAI: '#3b82f6', // blue
   RF: '#8b5cf6',  // violet
   SA: '#10b981',  // emerald
-  ARD: '#f59e0b'  // amber
+  ARD: '#f59e0b', // amber
+  EH: '#6366f1',  // indigo
+  II: '#14b8a6'   // teal
 };
 
 export function ConstructRadar({ scores, className, animated = true }: ConstructRadarProps) {
@@ -34,7 +38,9 @@ export function ConstructRadar({ scores, className, animated = true }: Construct
     EAI: 0,
     RF: 0,
     SA: 0,
-    ARD: 0
+    ARD: 0,
+    EH: 0,
+    II: 0
   });
 
   // Animate scores on mount
@@ -44,7 +50,9 @@ export function ConstructRadar({ scores, className, animated = true }: Construct
         EAI: scores.EAI.raw,
         RF: scores.RF.raw,
         SA: scores.SA.raw,
-        ARD: scores.ARD.raw
+        ARD: scores.ARD.raw,
+        EH: scores.EH?.raw || 0,
+        II: scores.II?.raw || 0
       });
       return;
     }
@@ -62,7 +70,9 @@ export function ConstructRadar({ scores, className, animated = true }: Construct
         EAI: Math.round(scores.EAI.raw * progress),
         RF: Math.round(scores.RF.raw * progress),
         SA: Math.round(scores.SA.raw * progress),
-        ARD: Math.round(scores.ARD.raw * progress)
+        ARD: Math.round(scores.ARD.raw * progress),
+        EH: Math.round((scores.EH?.raw || 0) * progress),
+        II: Math.round((scores.II?.raw || 0) * progress)
       });
 
       if (step >= steps) {
@@ -92,6 +102,16 @@ export function ConstructRadar({ scores, className, animated = true }: Construct
     {
       construct: 'ARD',
       score: displayScores.ARD,
+      fullMark: 100
+    },
+    {
+      construct: 'EH',
+      score: displayScores.EH,
+      fullMark: 100
+    },
+    {
+      construct: 'II',
+      score: displayScores.II,
       fullMark: 100
     }
   ];

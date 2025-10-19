@@ -31,6 +31,12 @@ export interface AutonomyStore {
   updateStreak(): Promise<void>;
   getStreak(): Promise<StreakData>;
   
+  // Phase 2: Badge checking
+  checkBadges(): Promise<Badge[]>;
+  
+  // Phase 2: Milestone tracking
+  checkModuleMilestones(): Promise<void>;
+  
   // Export/Import
   exportData(): Promise<ExportedData>;
   clearData(): Promise<void>;

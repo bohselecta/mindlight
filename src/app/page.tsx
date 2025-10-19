@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, Brain, Target, TrendingUp, Shield, ArrowRight } from 'lucide-react';
+import { Sparkles, Brain, Target, TrendingUp, Shield, ArrowRight, Heart, Network, BookOpen, Award, Scale, Search } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -86,6 +86,255 @@ export default function LandingPage() {
                 streak tracking, and personalized insights.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modules Section */}
+      <div className="py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-light mb-4">Training Modules</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Comprehensive tools for developing epistemic autonomy
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Phase 1 Modules */}
+            <Link
+              href="/mirrors/baseline"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-blue-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <Brain className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-blue-300 transition-colors">
+                  Baseline Mirror
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Comprehensive assessment of your current epistemic autonomy across four key constructs.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-slate-500">Phase 1</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            <Link
+              href="/mirrors/identity"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-violet-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-violet-600 rounded-xl flex items-center justify-center">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-violet-300 transition-colors">
+                  Identity Mirror
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Explore how your values align with group expectations and identify potential identity fusion.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-slate-500">Phase 1</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-violet-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            <Link
+              href="/loops/echo"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-emerald-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-emerald-300 transition-colors">
+                  Echo-Loop Game
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Train bias detection through interactive headline pairs and metacognitive feedback.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-slate-500">Phase 1</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            {/* Phase 2 Modules */}
+            <Link
+              href="/loops/disconfirm"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-amber-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center">
+                  <Brain className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-amber-300 transition-colors">
+                  Disconfirm Game
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Practice falsifiability thinking by identifying conditions that would disprove your beliefs.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-amber-400">Phase 2</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            <Link
+              href="/mirrors/schema"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-rose-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-rose-300 transition-colors">
+                  Schema Reclaim
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Emotional regulation techniques to decouple feelings from belief certainty.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-rose-400">Phase 2</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-rose-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            <Link
+              href="/loops/influence"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-cyan-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center">
+                  <Network className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-cyan-300 transition-colors">
+                  Influence Map
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Visualize your information sources and detect echo chamber patterns.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-cyan-400">Phase 2</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            {/* Phase 3 Modules */}
+            <Link
+              href="/loops/argument-flip"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-indigo-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <Scale className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-indigo-300 transition-colors">
+                  Argument Flip
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Practice steelmanning opposing views with intellectual charity and accuracy.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-indigo-400">Phase 3</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            <Link
+              href="/loops/source-audit"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-teal-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center">
+                  <Search className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-teal-300 transition-colors">
+                  Source Audit
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Daily provenance journaling to track belief origins and source dependencies.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-teal-400">Phase 3</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-teal-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            {/* Additional Features */}
+            <Link
+              href="/reflect"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-green-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-green-300 transition-colors">
+                  Daily Reflections
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Build metacognitive awareness through guided daily reflection practice.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-green-400">Retention</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-green-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            <Link
+              href="/library"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-indigo-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <BookOpen className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-indigo-300 transition-colors">
+                  Knowledge Library
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Micro-explainers on cognitive patterns, bias mechanisms, and epistemic autonomy.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-indigo-400">Learning</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+
+            <Link
+              href="/progress"
+              className="group bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 hover:border-purple-500/50 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <Award className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-medium text-slate-200 group-hover:text-purple-300 transition-colors">
+                  Progress Dashboard
+                </h3>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Track your autonomy growth, achievements, and streak progress over time.
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-purple-400">Analytics</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

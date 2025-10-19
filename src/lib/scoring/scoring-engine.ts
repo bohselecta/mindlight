@@ -10,6 +10,7 @@
  */
 
 import { BASELINE_MIRROR_ITEMS, type Construct, type AssessmentItem } from './assessment-bank';
+import { ArgumentFlip, SourceAudit } from '@/types';
 
 export interface UserResponse {
   userId: string;
@@ -332,4 +333,120 @@ export function generateSummary(scoreOutput: ScoreOutput): string {
   }
   
   return summary;
+}
+
+// Phase 3 Scoring Functions
+
+/**
+ * Calculate Epistemic Honesty (EH) from Argument Flip sessions
+ * 
+ * EH measures intellectual charity - the ability to fairly represent 
+ * opposing arguments without strawmanning or weakening them.
+ */
+export function calculateEH(flips: ArgumentFlip[]): number {
+  if (flips.length === 0) return 0;
+  
+  const avgCharity = flips.reduce((sum, f) => sum + f.charityScore, 0) / flips.length;
+  const avgAccuracy = flips.reduce((sum, f) => sum + f.accuracyScore, 0) / flips.length;
+  
+  // EH is the average of charity and accuracy scores
+  return Math.round((avgCharity + avgAccuracy) / 2);
+}
+
+/**
+ * Analyze Source Audit patterns to calculate Intellectual Independence (II)
+ * 
+ * II measures source diversity and evidence verification habits.
+ * Higher scores indicate less dependency on few sources and more evidence checking.
+ */
+export function calculateII(audits: SourceAudit[]): number {
+  if (audits.length < 7) return 0; // Minimum data requirement for meaningful patterns
+  
+  const patterns = analyzeAuditPatterns(audits);
+  
+  let score = 100;
+  
+  // High dependency reduces score significantly
+  if (patterns.dependencyLevel === 'high') score -= 30;
+  else if (patterns.dependencyLevel === 'moderate') score -= 15;
+  
+  // Evidence gaps reduce score proportionally
+  score -= patterns.evidenceGaps * 0.5;
+  
+  // Bonus for diverse beneficiary patterns (not always same group benefiting)
+  const uniqueBeneficiaries = new Set(patterns.beneficiaryPatterns).size;
+  if (uniqueBeneficiaries >= 3) score += 5;
+  
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+/**
+ * Analyze patterns in Source Audit data
+ */
+export function analyzeAuditPatterns(audits: SourceAudit[]): {
+  dependencyLevel: 'low' | 'moderate' | 'high';
+  topSources: string[];
+  beneficiaryPatterns: string[];
+  evidenceGaps: number;
+} {
+  if (audits.length === 0) {
+    return {
+      dependencyLevel: 'low',
+      topSources: [],
+      beneficiaryPatterns: [],
+      evidenceGaps: 0
+    };
+  }
+
+  // Who are the recurring sources?
+  const sourceCounts: Record<string, number> = {};
+  audits.forEach(audit => {
+    const source = audit.whoHeardFrom.toLowerCase().trim();
+    if (source) {
+      sourceCounts[source] = (sourceCounts[source] || 0) + 1;
+    }
+  });
+
+  const topSources = Object.entries(sourceCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([source]) => source);
+
+  // Who benefits most frequently?
+  const beneficiaryCounts: Record<string, number> = {};
+  audits.forEach(audit => {
+    audit.whoBenefits.forEach(beneficiary => {
+      beneficiaryCounts[beneficiary] = (beneficiaryCounts[beneficiary] || 0) + 1;
+    });
+  });
+
+  const beneficiaryPatterns = Object.entries(beneficiaryCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([beneficiary]) => beneficiary);
+
+  // Evidence gap: how many beliefs have unchecked evidence?
+  const uncheckedCount = audits.filter(audit =>
+    audit.evidenceChecked.toLowerCase().includes('not checked') ||
+    audit.evidenceChecked.toLowerCase().includes('haven\'t') ||
+    audit.evidenceChecked.toLowerCase().includes('not sure') ||
+    audit.evidenceChecked.length < 20
+  ).length;
+
+  const evidenceGaps = Math.round((uncheckedCount / audits.length) * 100);
+
+  // Dependency level: high if >60% of beliefs come from <3 sources
+  const totalSources = Object.keys(sourceCounts).length;
+  const topThreeCount = Object.values(sourceCounts).slice(0, 3).reduce((a, b) => a + b, 0);
+  const concentrationRatio = topThreeCount / audits.length;
+
+  const dependencyLevel = concentrationRatio > 0.6 ? 'high' :
+                         concentrationRatio > 0.4 ? 'moderate' : 'low';
+
+  return {
+    dependencyLevel,
+    topSources,
+    beneficiaryPatterns,
+    evidenceGaps
+  };
 }

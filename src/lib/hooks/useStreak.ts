@@ -18,7 +18,8 @@ export function useStreak() {
     milestones: {
       seven: false,
       twentyOne: false,
-      sixty: false
+      sixty: false,
+      hundred: false
     }
   });
   const [loading, setLoading] = useState(true);
@@ -67,6 +68,7 @@ export function useStreak() {
     if (!streak.milestones.seven) return { target: 7, achieved: false };
     if (!streak.milestones.twentyOne) return { target: 21, achieved: false };
     if (!streak.milestones.sixty) return { target: 60, achieved: false };
+    if (!streak.milestones.hundred) return { target: 100, achieved: false };
     return { target: null, achieved: true }; // All milestones achieved
   }, [streak.milestones]);
 

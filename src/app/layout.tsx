@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { PWAProvider } from '@/components/pwa/PWAProvider';
 
 export const metadata: Metadata = {
   title: 'Reflector - Epistemic Autonomy Training',
@@ -8,6 +9,18 @@ export const metadata: Metadata = {
   authors: [{ name: 'Reflector Team' }],
   viewport: 'width=device-width, initial-scale=1',
   robots: 'noindex, nofollow', // Privacy-first approach
+  manifest: '/manifest.json',
+  themeColor: '#3b82f6',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Reflector'
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default'
+  }
 };
 
 export default function RootLayout({
@@ -18,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="antialiased">
-        {children}
+        <PWAProvider>
+          {children}
+        </PWAProvider>
       </body>
     </html>
   );
