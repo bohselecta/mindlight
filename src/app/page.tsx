@@ -16,9 +16,9 @@ export default function LandingPage() {
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-8">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-violet-400 rounded-2xl flex items-center justify-center">
-                <Sparkles className="w-8 h-8 text-white" />
+                <img src="/logo.svg" alt="Mindlight" className="w-10 h-10" />
               </div>
-              <h1 className="text-5xl font-light tracking-tight">Reflector</h1>
+              <h1 className="text-5xl font-light tracking-tight">Mindlight</h1>
             </div>
             
             <h2 className="text-3xl font-light text-slate-300 mb-6">

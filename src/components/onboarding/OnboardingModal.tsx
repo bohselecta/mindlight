@@ -49,7 +49,7 @@ export function OnboardingModal({ onClose }: OnboardingModalProps) {
             <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-violet-400 rounded-lg flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-medium text-slate-300">Welcome to Reflector</span>
+            <span className="text-sm font-medium text-slate-300">Welcome to Mindlight</span>
           </div>
           <button
             onClick={handleSkip}

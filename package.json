@@ -1,7 +1,7 @@
 {
-  "name": "reflektor",
+  "name": "mindlight",
   "version": "1.0.0",
-  "description": "This package contains a complete, production-ready foundation for building **Reflector**—a self-guided metacognitive training suite for epistemic autonomy.",
+  "description": "A self-guided metacognitive training suite for epistemic autonomy—the ability to think for yourself, free from undue influence.",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -9,15 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:phase3": "node scripts/test-phase3.js",
-    "test:phase3:unit": "node scripts/test-phase3.js --file unit",
-    "test:phase3:integration": "node scripts/test-phase3.js --file integration",
-    "test:phase3:e2e": "node scripts/test-phase3.js --file e2e",
-    "test:phase3:report": "node scripts/test-phase3.js --report",
-    "test:phase3:check": "node scripts/test-phase3.js --check"
+    "test:ui": "vitest --ui"
   },
-  "keywords": [],
+  "keywords": ["epistemic autonomy", "critical thinking", "bias detection", "metacognition", "self-reflection", "cognitive training"],
   "author": "",
   "license": "ISC",
   "dependencies": {

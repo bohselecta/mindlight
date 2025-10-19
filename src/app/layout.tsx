@@ -4,10 +4,10 @@ import { PWAProvider } from '@/components/pwa/PWAProvider';
 import { OnboardingWrapper } from '@/components/onboarding/OnboardingWrapper';
 
 export const metadata: Metadata = {
-  title: 'Reflector - Epistemic Autonomy Training',
+  title: 'Mindlight - Epistemic Autonomy Training',
   description: 'A self-guided reflection suite that helps you notice when your thinking patterns might be outsourced to groups, authorities, or echo chambers.',
   keywords: ['epistemic autonomy', 'critical thinking', 'bias detection', 'metacognition', 'self-reflection'],
-  authors: [{ name: 'Reflector Team' }],
+  authors: [{ name: 'Mindlight Team' }],
   viewport: 'width=device-width, initial-scale=1',
   robots: 'noindex, nofollow', // Privacy-first approach
   manifest: '/manifest.json',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Reflector'
+    title: 'Mindlight'
   },
   other: {
     'mobile-web-app-capable': 'yes',
