@@ -1,10 +1,10 @@
 /**
  * Test Setup File
  * 
- * Configures Jest environment for Phase 2 testing
+ * Configures Vitest environment for Phase 3 testing
  */
 
-import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
 // Mock crypto.randomUUID for consistent test IDs
 Object.defineProperty(global, 'crypto', {
@@ -15,8 +15,8 @@ Object.defineProperty(global, 'crypto', {
 
 // Mock IndexedDB
 const mockIndexedDB = {
-  open: jest.fn(),
-  deleteDatabase: jest.fn(),
+  open: vi.fn(),
+  deleteDatabase: vi.fn(),
 };
 
 Object.defineProperty(global, 'indexedDB', {
@@ -25,10 +25,10 @@ Object.defineProperty(global, 'indexedDB', {
 
 // Mock localStorage
 const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
 };
 
 Object.defineProperty(global, 'localStorage', {
@@ -38,28 +38,28 @@ Object.defineProperty(global, 'localStorage', {
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
   })),
 });
 
 // Mock ResizeObserver
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
+global.ResizeObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
 }));
 
 // Mock IntersectionObserver
-global.IntersectionObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
+global.IntersectionObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
 }));

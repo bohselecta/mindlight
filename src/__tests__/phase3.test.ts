@@ -4,6 +4,7 @@
  * Tests for Argument Flip, Source Audit, EH/II scoring, and Phase 3 badges
  */
 
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { calculateEH, calculateII, analyzeAuditPatterns } from '@/lib/scoring/scoring-engine';
 import { BadgeEngine } from '@/lib/badges/badge-engine';
 import { ArgumentFlip, SourceAudit } from '@/types';
@@ -249,20 +250,20 @@ describe('Phase 3 Scoring Functions', () => {
 
 describe('Phase 3 Badge Engine', () => {
   const mockStore = {
-    getStreak: jest.fn().mockResolvedValue({ current: 10, longest: 20, milestones: { seven: true, twentyOne: true, sixty: false, hundred: false } }),
-    getDailyReflections: jest.fn().mockResolvedValue([]),
-    getDisconfirmGames: jest.fn().mockResolvedValue([]),
-    getSchemaReclaims: jest.fn().mockResolvedValue([]),
-    getInfluenceSources: jest.fn().mockResolvedValue([]),
-    getMilestones: jest.fn().mockResolvedValue([]),
-    getArgumentFlips: jest.fn().mockResolvedValue([]),
-    getSourceAudits: jest.fn().mockResolvedValue([]),
-    getBadges: jest.fn().mockResolvedValue([]),
-    unlockBadge: jest.fn().mockResolvedValue(undefined)
+    getStreak: vi.fn().mockResolvedValue({ current: 10, longest: 20, milestones: { seven: true, twentyOne: true, sixty: false, hundred: false } }),
+    getDailyReflections: vi.fn().mockResolvedValue([]),
+    getDisconfirmGames: vi.fn().mockResolvedValue([]),
+    getSchemaReclaims: vi.fn().mockResolvedValue([]),
+    getInfluenceSources: vi.fn().mockResolvedValue([]),
+    getMilestones: vi.fn().mockResolvedValue([]),
+    getArgumentFlips: vi.fn().mockResolvedValue([]),
+    getSourceAudits: vi.fn().mockResolvedValue([]),
+    getBadges: vi.fn().mockResolvedValue([]),
+    unlockBadge: vi.fn().mockResolvedValue(undefined)
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('Steelman Initiate Badge', () => {
