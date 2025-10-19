@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { BASELINE_MIRROR_ITEMS } from '@/lib/scoring/assessment-bank';
 import { AssessmentWrapper } from '@/components/assessment/AssessmentWrapper';

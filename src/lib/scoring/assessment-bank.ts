@@ -49,7 +49,7 @@ export const BASELINE_MIRROR_ITEMS: AssessmentItem[] = [
     id: 'eai_01',
     construct: 'EAI',
     type: 'likert7',
-    prompt: 'Before sharing an opinion, I scan for whether it's truly mine.',
+    prompt: 'Before sharing an opinion, I scan for whether it\'s truly mine.',
     reverse: false
   },
   {
