@@ -27,5 +27,12 @@
   "lib/hooks/useAutonomy.ts -> @/lib/scoring/scoring-engine": {
     "id": 81716,
     "files": []
+  },
+  "lib/hooks/useOnboarding.ts -> @/lib/store/autonomy-store": {
+    "id": 78396,
+    "files": [
+      "static/chunks/278-270a6b543174023e.js",
+      "static/chunks/396-3bf4f62896021b5c.js"
+    ]
   }
 }

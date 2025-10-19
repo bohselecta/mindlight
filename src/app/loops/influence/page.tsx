@@ -205,7 +205,7 @@ export default function InfluenceMapPage() {
       for (const source of sources) {
         const influenceSource: InfluenceSource = {
           id: source.id,
-          userId,
+          userId: userId(),
           name: source.name,
           type: source.type,
           leaning: source.leaning,

@@ -241,125 +241,163 @@ export default function DisconfirmGamePage() {
 
   if (stage === 'belief') {
     return (
-      <AssessmentWrapper
-        title="Step 1: State Your Belief"
-        description="Choose something you feel confident about."
-        progress={progress}
-        onNext={() => setStage('falsifiers')}
-        onBack={() => setStage('intro')}
-        nextEnabled={belief.trim().length >= 20}
-        nextLabel="Continue →"
-        icon={<Brain className="w-5 h-5 text-white" />}
-      >
-        <div className="space-y-6">
-          <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
-            <label className="block text-sm text-slate-400 mb-3">
-              I believe that...
-            </label>
-            <textarea
-              value={belief}
-              onChange={(e) => setBelief(e.target.value)}
-              className="w-full bg-slate-900/50 border border-slate-600 rounded-xl p-4 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors min-h-32 resize-none"
-              placeholder="e.g., 'Climate change is primarily caused by human activity' or 'Remote work increases productivity'"
-            />
-            <p className="text-xs text-slate-500 mt-2">
-              Tip: Be specific. "Policy X is good" is weaker than "Policy X reduces homelessness."
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+        <div className="max-w-4xl mx-auto pt-12 px-6">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Brain className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-light text-slate-100 mb-4">Step 1: State Your Belief</h1>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              Choose something you feel confident about.
             </p>
           </div>
+          
+          <div className="space-y-6">
+            <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
+              <label className="block text-sm text-slate-400 mb-3">
+                I believe that...
+              </label>
+              <textarea
+                value={belief}
+                onChange={(e) => setBelief(e.target.value)}
+                className="w-full bg-slate-900/50 border border-slate-600 rounded-xl p-4 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors min-h-32 resize-none"
+                placeholder="e.g., 'Climate change is primarily caused by human activity' or 'Remote work increases productivity'"
+              />
+              <p className="text-xs text-slate-500 mt-2">
+                Tip: Be specific. "Policy X is good" is weaker than "Policy X reduces homelessness."
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex gap-3 mt-8">
+            <button
+              onClick={() => setStage('intro')}
+              className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-3 rounded-xl font-medium transition-all"
+            >
+              Back
+            </button>
+            <button
+              onClick={() => setStage('falsifiers')}
+              disabled={belief.trim().length < 20}
+              className="flex-1 bg-violet-600 hover:bg-violet-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white px-4 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2"
+            >
+              Continue →
+            </button>
+          </div>
         </div>
-      </AssessmentWrapper>
+      </div>
     );
   }
 
   if (stage === 'falsifiers') {
     return (
-      <AssessmentWrapper
-        title="Step 2: What Would Change Your Mind?"
-        description="List specific, testable conditions."
-        progress={progress}
-        onNext={() => setStage('results')}
-        onBack={() => setStage('belief')}
-        nextEnabled={falsifiers.length > 0}
-        nextLabel={`See Results (${falsifiers.length} falsifier${falsifiers.length !== 1 ? 's' : ''})`}
-        icon={<Brain className="w-5 h-5 text-white" />}
-      >
-        <div className="space-y-6">
-          <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
-            <div className="bg-slate-900/50 border border-slate-600 rounded-xl p-4 mb-4">
-              <p className="text-slate-300 italic">"{belief}"</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+        <div className="max-w-4xl mx-auto pt-12 px-6">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Brain className="w-8 h-8 text-white" />
             </div>
-
-            <label className="block text-sm text-slate-400 mb-3">
-              I would reconsider if...
-            </label>
-            <div className="space-y-3">
-              <textarea
-                value={currentFalsifier}
-                onChange={(e) => setCurrentFalsifier(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && e.shiftKey && addFalsifier()}
-                className="w-full bg-slate-900/50 border border-slate-600 rounded-xl p-4 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors min-h-24 resize-none"
-                placeholder="e.g., 'If 3+ peer-reviewed meta-analyses showed no correlation between X and Y...'"
-              />
-              
-              {!showHint ? (
-                <button
-                  onClick={() => setShowHint(true)}
-                  className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
-                >
-                  Need a hint? →
-                </button>
-              ) : (
-                <div className="bg-purple-900/20 border border-purple-700/30 rounded-lg p-3">
-                  <p className="text-sm text-purple-300">
-                    {hints[Math.floor(Math.random() * hints.length)]}
-                  </p>
-                </div>
-              )}
-
-              <button
-                onClick={addFalsifier}
-                disabled={currentFalsifier.trim().length < 10}
-                className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white py-3 rounded-xl font-medium transition-all"
-              >
-                Add Falsifier ({falsifiers.length})
-              </button>
-            </div>
+            <h1 className="text-3xl font-light text-slate-100 mb-4">Step 2: What Would Change Your Mind?</h1>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              List specific, testable conditions.
+            </p>
           </div>
-
-          {falsifiers.length > 0 && (
+          
+          <div className="space-y-6">
             <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
-              <h3 className="text-lg font-medium text-slate-200 mb-4">Your Falsifiers</h3>
+              <div className="bg-slate-900/50 border border-slate-600 rounded-xl p-4 mb-4">
+                <p className="text-slate-300 italic">"{belief}"</p>
+              </div>
+
+              <label className="block text-sm text-slate-400 mb-3">
+                I would reconsider if...
+              </label>
               <div className="space-y-3">
-                {falsifiers.map((f, idx) => (
-                  <div key={f.id} className="bg-slate-900/50 border border-slate-600 rounded-xl p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">
-                        {idx + 1}
-                      </span>
-                      <div className="flex-1">
-                        <p className="text-slate-300 text-sm mb-2">{f.text}</p>
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                            <div
-                              className={cn(
-                                "h-full transition-all",
-                                f.specificity >= 70 ? 'bg-emerald-500' :
-                                f.specificity >= 40 ? 'bg-blue-500' : 'bg-amber-500'
-                              )}
-                              style={{ width: `${f.specificity}%` }}
-                            />
+                <textarea
+                  value={currentFalsifier}
+                  onChange={(e) => setCurrentFalsifier(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && e.shiftKey && addFalsifier()}
+                  className="w-full bg-slate-900/50 border border-slate-600 rounded-xl p-4 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors min-h-24 resize-none"
+                  placeholder="e.g., 'If 3+ peer-reviewed meta-analyses showed no correlation between X and Y...'"
+                />
+                
+                {!showHint ? (
+                  <button
+                    onClick={() => setShowHint(true)}
+                    className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                  >
+                    Need a hint? →
+                  </button>
+                ) : (
+                  <div className="bg-purple-900/20 border border-purple-700/30 rounded-lg p-3">
+                    <p className="text-sm text-purple-300">
+                      {hints[Math.floor(Math.random() * hints.length)]}
+                    </p>
+                  </div>
+                )}
+
+                <button
+                  onClick={addFalsifier}
+                  disabled={currentFalsifier.trim().length < 10}
+                  className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white py-3 rounded-xl font-medium transition-all"
+                >
+                  Add Falsifier ({falsifiers.length})
+                </button>
+              </div>
+            </div>
+
+            {falsifiers.length > 0 && (
+              <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
+                <h3 className="text-lg font-medium text-slate-200 mb-4">Your Falsifiers</h3>
+                <div className="space-y-3">
+                  {falsifiers.map((f, idx) => (
+                    <div key={f.id} className="bg-slate-900/50 border border-slate-600 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm flex items-center justify-center">
+                          {idx + 1}
+                        </span>
+                        <div className="flex-1">
+                          <p className="text-slate-300 text-sm mb-2">{f.text}</p>
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                              <div
+                                className={cn(
+                                  "h-full transition-all",
+                                  f.specificity >= 70 ? 'bg-emerald-500' :
+                                  f.specificity >= 40 ? 'bg-blue-500' : 'bg-amber-500'
+                                )}
+                                style={{ width: `${f.specificity}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-slate-500">{f.specificity}/100</span>
                           </div>
-                          <span className="text-xs text-slate-500">{f.specificity}/100</span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+          
+          <div className="flex gap-3 mt-8">
+            <button
+              onClick={() => setStage('belief')}
+              className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-3 rounded-xl font-medium transition-all"
+            >
+              Back
+            </button>
+            <button
+              onClick={() => setStage('results')}
+              disabled={falsifiers.length === 0}
+              className="flex-1 bg-violet-600 hover:bg-violet-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white px-4 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2"
+            >
+              See Results ({falsifiers.length} falsifier{falsifiers.length !== 1 ? 's' : ''})
+            </button>
+          </div>
         </div>
-      </AssessmentWrapper>
+      </div>
     );
   }
 
@@ -401,77 +439,96 @@ export default function DisconfirmGamePage() {
     const colorClasses = getColorClasses(feedback.color);
 
     return (
-      <AssessmentWrapper
-        title="Your Falsifiability Score"
-        description="Epistemic flexibility assessment"
-        progress={progress}
-        onNext={handleSaveProgress}
-        onBack={() => setStage('falsifiers')}
-        nextLabel="Save Progress →"
-        icon={<Brain className="w-5 h-5 text-white" />}
-      >
-        <div className="space-y-6">
-          <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 text-center">
-            <div className={cn("inline-flex items-center justify-center w-24 h-24 rounded-full border-2 mb-4", colorClasses.bg, colorClasses.border)}>
-              <FeedbackIcon className={cn("w-12 h-12", colorClasses.text)} />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+        <div className="max-w-4xl mx-auto pt-12 px-6">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Brain className="w-8 h-8 text-white" />
             </div>
-            <div className="text-6xl font-light text-slate-200 mb-2">{overallScore}</div>
-            <div className={cn("text-lg mb-4", colorClasses.text)}>{feedback.level}</div>
-            <p className="text-slate-300 leading-relaxed max-w-xl mx-auto">{feedback.message}</p>
-          </div>
-
-          <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
-            <h3 className="text-lg font-medium text-slate-200 mb-4 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-purple-400" />
-              Breakdown
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-slate-400">Number of falsifiers</span>
-                <span className="text-slate-200 font-medium">{falsifiers.length}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-400">Average specificity</span>
-                <span className="text-slate-200 font-medium">
-                  {falsifiers.length > 0 
-                    ? Math.round(falsifiers.reduce((sum, f) => sum + f.specificity, 0) / falsifiers.length)
-                    : 0}/100
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-400">Openness bonus</span>
-                <span className="text-slate-200 font-medium">+{Math.min(falsifiers.length * 5, 20)}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-700/50 rounded-2xl p-6">
-            <h3 className="text-lg font-medium text-purple-200 mb-3">What This Reveals</h3>
-            <p className="text-sm text-purple-300/80 leading-relaxed mb-3">
-              Your ability to name specific falsifiers measures <strong>epistemic humility</strong>—the recognition 
-              that your beliefs are provisional and evidence-dependent, not identity-protective.
-            </p>
-            <p className="text-xs text-purple-400/60">
-              High scores correlate with lower susceptibility to echo chambers and ideological capture.
+            <h1 className="text-3xl font-light text-slate-100 mb-4">Your Falsifiability Score</h1>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              Epistemic flexibility assessment
             </p>
           </div>
+          
+          <div className="space-y-6">
+            <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 text-center">
+              <div className={cn("inline-flex items-center justify-center w-24 h-24 rounded-full border-2 mb-4", colorClasses.bg, colorClasses.border)}>
+                <FeedbackIcon className={cn("w-12 h-12", colorClasses.text)} />
+              </div>
+              <div className="text-6xl font-light text-slate-200 mb-2">{overallScore}</div>
+              <div className={cn("text-lg mb-4", colorClasses.text)}>{feedback.level}</div>
+              <p className="text-slate-300 leading-relaxed max-w-xl mx-auto">{feedback.message}</p>
+            </div>
 
-          <div className="flex gap-4">
+            <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
+              <h3 className="text-lg font-medium text-slate-200 mb-4 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-purple-400" />
+                Breakdown
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Number of falsifiers</span>
+                  <span className="text-slate-200 font-medium">{falsifiers.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Average specificity</span>
+                  <span className="text-slate-200 font-medium">
+                    {falsifiers.length > 0 
+                      ? Math.round(falsifiers.reduce((sum, f) => sum + f.specificity, 0) / falsifiers.length)
+                      : 0}/100
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Openness bonus</span>
+                  <span className="text-slate-200 font-medium">+{Math.min(falsifiers.length * 5, 20)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-700/50 rounded-2xl p-6">
+              <h3 className="text-lg font-medium text-purple-200 mb-3">What This Reveals</h3>
+              <p className="text-sm text-purple-300/80 leading-relaxed mb-3">
+                Your ability to name specific falsifiers measures <strong>epistemic humility</strong>—the recognition 
+                that your beliefs are provisional and evidence-dependent, not identity-protective.
+              </p>
+              <p className="text-xs text-purple-400/60">
+                High scores correlate with lower susceptibility to echo chambers and ideological capture.
+              </p>
+            </div>
+
+            <div className="flex gap-4">
+              <button
+                onClick={() => {
+                  setStage('intro');
+                  setBelief('');
+                  setFalsifiers([]);
+                  setCurrentFalsifier('');
+                  setShowHint(false);
+                }}
+                className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 py-3 rounded-xl font-medium transition-all"
+              >
+                Try Another Belief
+              </button>
+            </div>
+          </div>
+          
+          <div className="flex gap-3 mt-8">
             <button
-              onClick={() => {
-                setStage('intro');
-                setBelief('');
-                setFalsifiers([]);
-                setCurrentFalsifier('');
-                setShowHint(false);
-              }}
-              className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 py-3 rounded-xl font-medium transition-all"
+              onClick={() => setStage('falsifiers')}
+              className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-3 rounded-xl font-medium transition-all"
             >
-              Try Another Belief
+              Back
+            </button>
+            <button
+              onClick={handleSaveProgress}
+              className="flex-1 bg-violet-600 hover:bg-violet-700 text-white px-4 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2"
+            >
+              Save Progress →
             </button>
           </div>
         </div>
-      </AssessmentWrapper>
+      </div>
     );
   }
 

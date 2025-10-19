@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { PWAProvider } from '@/components/pwa/PWAProvider';
+import { OnboardingWrapper } from '@/components/onboarding/OnboardingWrapper';
 
 export const metadata: Metadata = {
   title: 'Reflector - Epistemic Autonomy Training',
@@ -32,7 +33,9 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="antialiased">
         <PWAProvider>
-          {children}
+          <OnboardingWrapper>
+            {children}
+          </OnboardingWrapper>
         </PWAProvider>
       </body>
     </html>
