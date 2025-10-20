@@ -20,10 +20,13 @@ import {
   Clock
 } from 'lucide-react';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<any>(null);
-  const [syncStatus, setSyncStatus] = useState(syncStateManager.getStatus());
+  const [syncStatus, setSyncStatus] = useState(syncStateManager.instance.getStatus());
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   const [error, setError] = useState('');
@@ -57,7 +60,7 @@ export default function ProfilePage() {
     loadProfile();
 
     // Subscribe to sync status changes
-    const unsubscribe = syncStateManager.addListener(setSyncStatus);
+    const unsubscribe = syncStateManager.instance.addListener(setSyncStatus);
     return unsubscribe;
   }, [user, supabase]);
 
@@ -68,7 +71,7 @@ export default function ProfilePage() {
     setError('');
 
     try {
-      await syncStateManager.triggerSync(user.id);
+      await syncStateManager.instance.triggerSync(user.id);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Sync failed');
     } finally {
@@ -119,20 +122,20 @@ export default function ProfilePage() {
     if (isSyncing) {
       return 'Syncing...';
     }
-    if (!syncStateManager.isEnabled()) {
+    if (!syncStateManager.instance.isEnabled()) {
       return 'Sync disabled';
     }
     if (!syncStatus.isOnline) {
       return 'Offline';
     }
-    return syncStateManager.getTimeSinceLastSync();
+    return syncStateManager.instance.getTimeSinceLastSync();
   };
 
   const getSyncStatusColor = () => {
     if (isSyncing) {
       return 'text-blue-600';
     }
-    if (!syncStateManager.isEnabled()) {
+    if (!syncStateManager.instance.isEnabled()) {
       return 'text-slate-500';
     }
     if (!syncStatus.isOnline) {
@@ -240,13 +243,13 @@ export default function ProfilePage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    {syncStateManager.isEnabled() ? (
+                    {syncStateManager.instance.isEnabled() ? (
                       <CheckCircle className="w-5 h-5 text-green-600" />
                     ) : (
                       <Clock className="w-5 h-5 text-slate-500" />
                     )}
                     <span className="font-medium text-slate-900">
-                      {syncStateManager.isEnabled() ? 'Sync Enabled' : 'Sync Disabled'}
+                      {syncStateManager.instance.isEnabled() ? 'Sync Enabled' : 'Sync Disabled'}
                     </span>
                   </div>
                   <span className={`text-sm ${getSyncStatusColor()}`}>
@@ -254,7 +257,7 @@ export default function ProfilePage() {
                   </span>
                 </div>
 
-                {syncStateManager.isEnabled() && (
+                {syncStateManager.instance.isEnabled() && (
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleManualSync}

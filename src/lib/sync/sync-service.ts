@@ -205,7 +205,7 @@ class SyncService {
         .eq('user_id', userId);
 
       const remoteVersions = new Map(
-        remoteBlobs?.map(blob => [blob.blob_type, blob.version]) || []
+        remoteBlobs?.map((blob: any) => [blob.blob_type, blob.version]) || []
       );
 
       // Upload each blob type with version increment
@@ -213,7 +213,7 @@ class SyncService {
       const uploadPromises = blobTypes.map(async (blobType) => {
         const blobData = localData[blobType] || {};
         const currentVersion = remoteVersions.get(blobType) || 0;
-        const newVersion = currentVersion + 1;
+        const newVersion = (currentVersion as number) + 1;
 
         const { payload } = await encryptWithNewSalt('', blobData);
         payload.salt = btoa(String.fromCharCode(...salt));

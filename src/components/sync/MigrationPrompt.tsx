@@ -60,7 +60,7 @@ export function MigrationPrompt({ onComplete, onSkip }: MigrationPromptProps) {
       
       if (result.success) {
         setStep('complete');
-        syncStateManager.enableSync(user.id);
+        syncStateManager.instance.enableSync(user.id);
       } else {
         setError(result.error || 'Migration failed');
         setStep('error');

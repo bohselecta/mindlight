@@ -11,22 +11,22 @@ interface SyncStatusProps {
 
 export function SyncStatus({ className = '' }: SyncStatusProps) {
   const { user } = useAuth();
-  const [syncStatus, setSyncStatus] = useState(syncStateManager.getStatus());
+  const [syncStatus, setSyncStatus] = useState(syncStateManager.instance.getStatus());
   const [isManualSyncing, setIsManualSyncing] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = syncStateManager.addListener(setSyncStatus);
+    const unsubscribe = syncStateManager.instance.addListener(setSyncStatus);
     return unsubscribe;
   }, []);
 
-  if (!user || !syncStateManager.isEnabled()) {
+  if (!user || !syncStateManager.instance.isEnabled()) {
     return null;
   }
 
   const handleManualSync = async () => {
     setIsManualSyncing(true);
     try {
-      await syncStateManager.triggerSync(user.id);
+      await syncStateManager.instance.triggerSync(user.id);
     } finally {
       setIsManualSyncing(false);
     }
@@ -53,7 +53,7 @@ export function SyncStatus({ className = '' }: SyncStatusProps) {
       return 'Offline';
     }
     if (syncStatus.lastSyncAt) {
-      return `All changes saved • ${syncStateManager.getTimeSinceLastSync()}`;
+      return `All changes saved • ${syncStateManager.instance.getTimeSinceLastSync()}`;
     }
     return 'Not synced';
   };
@@ -93,17 +93,17 @@ export function SyncStatus({ className = '' }: SyncStatusProps) {
 // Floating sync status chip component
 export function FloatingSyncStatus({ className = '' }: SyncStatusProps) {
   const { user } = useAuth();
-  const [syncStatus, setSyncStatus] = useState(syncStateManager.getStatus());
+  const [syncStatus, setSyncStatus] = useState(syncStateManager.instance.getStatus());
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = syncStateManager.addListener(setSyncStatus);
+    const unsubscribe = syncStateManager.instance.addListener(setSyncStatus);
     return unsubscribe;
   }, []);
 
   useEffect(() => {
     // Show chip when there's activity or errors
-    if (syncStatus.isSyncing || (!syncStatus.isOnline && syncStateManager.isEnabled())) {
+    if (syncStatus.isSyncing || (!syncStatus.isOnline && syncStateManager.instance.isEnabled())) {
       setIsVisible(true);
     } else {
       // Hide after 3 seconds of inactivity
@@ -112,7 +112,7 @@ export function FloatingSyncStatus({ className = '' }: SyncStatusProps) {
     }
   }, [syncStatus.isSyncing, syncStatus.isOnline]);
 
-  if (!user || !syncStateManager.isEnabled() || !isVisible) {
+  if (!user || !syncStateManager.instance.isEnabled() || !isVisible) {
     return null;
   }
 

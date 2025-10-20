@@ -3,6 +3,12 @@
  * Only creates client when environment variables are available
  */
 
+interface CookieToSet {
+  name: string;
+  value: string;
+  options?: any;
+}
+
 let supabaseServerClient: any = null;
 
 export async function createClient() {
@@ -32,7 +38,7 @@ export async function createClient() {
           getAll() {
             return cookieStore.getAll()
           },
-          setAll(cookiesToSet) {
+          setAll(cookiesToSet: CookieToSet[]) {
             try {
               cookiesToSet.forEach(({ name, value, options }) =>
                 cookieStore.set(name, value, options)

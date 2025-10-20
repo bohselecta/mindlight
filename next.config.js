@@ -4,6 +4,9 @@ const nextConfig = {
     mdxRs: true,
   },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+  // Disable static optimization to avoid SSR issues with client-side code
+  output: 'standalone',
+  trailingSlash: false,
 }
 
 const withMDX = require('@next/mdx')({

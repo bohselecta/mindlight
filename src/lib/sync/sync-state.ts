@@ -15,7 +15,7 @@ class SyncStateManager {
   private state: SyncState = {
     status: {
       lastSyncAt: null,
-      isOnline: navigator.onLine,
+      isOnline: typeof window !== 'undefined' ? navigator.onLine : true,
       pendingChanges: 0,
       isSyncing: false,
     },
@@ -34,6 +34,9 @@ class SyncStateManager {
    * Load sync state from localStorage
    */
   private loadState(): void {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     try {
       const saved = localStorage.getItem('mindlight_sync_state');
       if (saved) {
@@ -53,6 +56,9 @@ class SyncStateManager {
    * Save sync state to localStorage
    */
   private saveState(): void {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     try {
       const stateToSave = {
         isEnabled: this.state.isEnabled,
@@ -68,6 +74,9 @@ class SyncStateManager {
    * Setup event listeners for online/offline detection
    */
   private setupEventListeners(): void {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     window.addEventListener('online', () => {
       this.state.status.isOnline = true;
       this.notifyListeners();
@@ -268,4 +277,13 @@ class SyncStateManager {
 }
 
 // Export singleton instance
-export const syncStateManager = new SyncStateManager();
+let syncStateManagerInstance: SyncStateManager | null = null;
+
+export const syncStateManager = {
+  get instance() {
+    if (!syncStateManagerInstance) {
+      syncStateManagerInstance = new SyncStateManager();
+    }
+    return syncStateManagerInstance;
+  }
+};

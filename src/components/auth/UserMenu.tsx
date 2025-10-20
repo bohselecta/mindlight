@@ -12,11 +12,11 @@ interface UserMenuProps {
 export function UserMenu({ className = '' }: UserMenuProps) {
   const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [syncStatus, setSyncStatus] = useState(syncStateManager.getStatus());
+  const [syncStatus, setSyncStatus] = useState(syncStateManager.instance.getStatus());
 
   // Subscribe to sync status changes
   useState(() => {
-    const unsubscribe = syncStateManager.addListener(setSyncStatus);
+    const unsubscribe = syncStateManager.instance.addListener(setSyncStatus);
     return unsubscribe;
   });
 
@@ -26,32 +26,32 @@ export function UserMenu({ className = '' }: UserMenuProps) {
 
   const handleSignOut = async () => {
     await signOut();
-    syncStateManager.disableSync();
+    syncStateManager.instance.disableSync();
     setIsOpen(false);
   };
 
   const handleManualSync = async () => {
-    await syncStateManager.triggerSync(user.id);
+    await syncStateManager.instance.triggerSync(user.id);
   };
 
   const getSyncStatusText = () => {
     if (syncStatus.isSyncing) {
       return 'Syncing...';
     }
-    if (!syncStateManager.isEnabled()) {
+    if (!syncStateManager.instance.isEnabled()) {
       return 'Sync disabled';
     }
     if (!syncStatus.isOnline) {
       return 'Offline';
     }
-    return syncStateManager.getTimeSinceLastSync();
+    return syncStateManager.instance.getTimeSinceLastSync();
   };
 
   const getSyncStatusColor = () => {
     if (syncStatus.isSyncing) {
       return 'text-blue-600';
     }
-    if (!syncStateManager.isEnabled()) {
+    if (!syncStateManager.instance.isEnabled()) {
       return 'text-slate-500';
     }
     if (!syncStatus.isOnline) {
@@ -112,7 +112,7 @@ export function UserMenu({ className = '' }: UserMenuProps) {
                   </span>
                 </div>
                 
-                {syncStateManager.isEnabled() && syncStatus.isOnline && (
+                {syncStateManager.instance.isEnabled() && syncStatus.isOnline && (
                   <button
                     onClick={handleManualSync}
                     disabled={syncStatus.isSyncing}

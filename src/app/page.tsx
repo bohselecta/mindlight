@@ -8,7 +8,10 @@ import { CompletionBadge } from '@/components/ui/CompletionIndicator';
 import { SignInButton } from '@/components/auth/SignInButton';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { useAuth } from '@/components/auth/AuthProvider';
-import { FloatingSyncStatus } from '@/components/sync/SyncStatus';
+// import { FloatingSyncStatus } from '@/components/sync/SyncStatus';
+
+// Force dynamic rendering to avoid SSR issues with sync components
+export const dynamic = 'force-dynamic';
 
 export default function LandingPage() {
   const { getCompletionStatus, getCompletionCount, getTotalModules, loading } = useModuleCompletion();
@@ -520,7 +523,7 @@ export default function LandingPage() {
       </div>
       
       {/* Floating Sync Status */}
-      <FloatingSyncStatus />
+      {/* <FloatingSyncStatus /> */}
     </div>
   );
 }
