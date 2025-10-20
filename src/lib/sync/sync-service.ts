@@ -32,12 +32,26 @@ class SyncService {
   private supabase = createClient();
   private syncStatus: SyncStatus = {
     lastSyncAt: null,
-    isOnline: navigator.onLine,
+    isOnline: true, // Default to true, will be updated on client
     pendingChanges: 0,
     isSyncing: false,
   };
+  private initialized = false;
 
   constructor() {
+    // Only initialize on client side
+    if (typeof window !== 'undefined') {
+      this.initialize();
+    }
+  }
+
+  private initialize() {
+    if (this.initialized) return;
+    this.initialized = true;
+
+    // Update online status
+    this.syncStatus.isOnline = navigator.onLine;
+
     // Listen for online/offline events
     window.addEventListener('online', () => {
       this.syncStatus.isOnline = true;
@@ -141,7 +155,9 @@ class SyncService {
 
       // Update sync status
       this.syncStatus.lastSyncAt = new Date();
-      localStorage.setItem('mindlight_last_sync', this.syncStatus.lastSyncAt.toISOString());
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('mindlight_last_sync', this.syncStatus.lastSyncAt.toISOString());
+      }
 
       // Log successful migration
       await this.supabase
@@ -232,7 +248,9 @@ class SyncService {
 
       // Update sync status
       this.syncStatus.lastSyncAt = new Date();
-      localStorage.setItem('mindlight_last_sync', this.syncStatus.lastSyncAt.toISOString());
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('mindlight_last_sync', this.syncStatus.lastSyncAt.toISOString());
+      }
 
       // Log successful push
       await this.supabase
@@ -344,7 +362,9 @@ class SyncService {
 
       // Update sync status
       this.syncStatus.lastSyncAt = new Date();
-      localStorage.setItem('mindlight_last_sync', this.syncStatus.lastSyncAt.toISOString());
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('mindlight_last_sync', this.syncStatus.lastSyncAt.toISOString());
+      }
 
       // Log successful pull
       await this.supabase

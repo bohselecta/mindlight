@@ -9,10 +9,8 @@ export const metadata: Metadata = {
   description: 'A self-guided reflection suite that helps you notice when your thinking patterns might be outsourced to groups, authorities, or echo chambers.',
   keywords: ['epistemic autonomy', 'critical thinking', 'bias detection', 'metacognition', 'self-reflection'],
   authors: [{ name: 'Mindlight Team' }],
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'noindex, nofollow', // Privacy-first approach
   manifest: '/manifest.json',
-  themeColor: '#3b82f6',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -23,6 +21,12 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default'
   }
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#3b82f6',
 };
 
 export default function RootLayout({

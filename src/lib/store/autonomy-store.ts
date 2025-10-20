@@ -90,5 +90,45 @@ export function createAutonomyStore(userId?: string): AutonomyStore {
   return new LocalAutonomyStore(userId);
 }
 
-// Default store instance for convenience
-export const autonomyStore = createAutonomyStore();
+// Default store instance for convenience - lazy initialization
+let _autonomyStore: AutonomyStore | null = null;
+
+export function getAutonomyStore(): AutonomyStore {
+  if (!_autonomyStore) {
+    _autonomyStore = createAutonomyStore();
+  }
+  return _autonomyStore;
+}
+
+// For backward compatibility, export a getter
+export const autonomyStore = {
+  get saveResponse() { return getAutonomyStore().saveResponse; },
+  get getResponses() { return getAutonomyStore().getResponses; },
+  get getAllResponses() { return getAutonomyStore().getAllResponses; },
+  get saveProfile() { return getAutonomyStore().saveProfile; },
+  get getProfile() { return getAutonomyStore().getProfile; },
+  get saveIdentityProfile() { return getAutonomyStore().saveIdentityProfile; },
+  get getIdentityProfile() { return getAutonomyStore().getIdentityProfile; },
+  get updateStreak() { return getAutonomyStore().updateStreak; },
+  get getStreak() { return getAutonomyStore().getStreak; },
+  get checkBadges() { return getAutonomyStore().checkBadges; },
+  get checkModuleMilestones() { return getAutonomyStore().checkModuleMilestones; },
+  get saveDisconfirmGame() { return getAutonomyStore().saveDisconfirmGame; },
+  get getDisconfirmGames() { return getAutonomyStore().getDisconfirmGames; },
+  get saveSchemaReclaim() { return getAutonomyStore().saveSchemaReclaim; },
+  get getSchemaReclaims() { return getAutonomyStore().getSchemaReclaims; },
+  get saveInfluenceSource() { return getAutonomyStore().saveInfluenceSource; },
+  get getInfluenceSources() { return getAutonomyStore().getInfluenceSources; },
+  get saveDailyReflection() { return getAutonomyStore().saveDailyReflection; },
+  get getDailyReflections() { return getAutonomyStore().getDailyReflections; },
+  get saveMilestone() { return getAutonomyStore().saveMilestone; },
+  get getMilestones() { return getAutonomyStore().getMilestones; },
+  get saveArgumentFlip() { return getAutonomyStore().saveArgumentFlip; },
+  get getArgumentFlips() { return getAutonomyStore().getArgumentFlips; },
+  get saveSourceAudit() { return getAutonomyStore().saveSourceAudit; },
+  get getSourceAudits() { return getAutonomyStore().getSourceAudits; },
+  get exportData() { return getAutonomyStore().exportData; },
+  get clearData() { return getAutonomyStore().clearData; },
+  get getMetadata() { return getAutonomyStore().getMetadata; },
+  get setMetadata() { return getAutonomyStore().setMetadata; },
+};

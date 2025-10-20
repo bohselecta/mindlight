@@ -89,7 +89,19 @@ class ReflectorDB extends Dexie {
   }
 }
 
-const db = new ReflectorDB();
+let db: ReflectorDB | null = null;
+
+function getDB(): ReflectorDB {
+  if (!db) {
+    // Only create database on client side
+    if (typeof window !== 'undefined') {
+      db = new ReflectorDB();
+    } else {
+      throw new Error('Database can only be accessed on client side');
+    }
+  }
+  return db;
+}
 
 export class LocalAutonomyStore implements AutonomyStore {
   private userId: string;
@@ -100,7 +112,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Response management
   async saveResponse(response: UserResponse): Promise<void> {
-    await db.responses.add({
+    await getDB().responses.add({
       ...response,
       userId: this.userId,
       timestamp: new Date(response.timestamp)
@@ -108,7 +120,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getResponses(assessmentId: string): Promise<UserResponse[]> {
-    const responses = await db.responses
+    const responses = await getDB().responses
       .where('userId')
       .equals(this.userId)
       .and(r => r.assessmentId === assessmentId)
@@ -121,7 +133,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getAllResponses(): Promise<UserResponse[]> {
-    const responses = await db.responses
+    const responses = await getDB().responses
       .where('userId')
       .equals(this.userId)
       .toArray();
@@ -134,7 +146,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Profile management
   async saveProfile(profile: AutonomyProfile): Promise<void> {
-    await db.profiles.put({
+    await getDB().profiles.put({
       ...profile,
       userId: this.userId,
       lastUpdated: new Date()
@@ -142,7 +154,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getProfile(): Promise<AutonomyProfile | null> {
-    const profile = await db.profiles
+    const profile = await getDB().profiles
       .where('userId')
       .equals(this.userId)
       .first();
@@ -157,7 +169,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Identity management
   async saveIdentityProfile(profile: IdentityProfile): Promise<void> {
-    await db.identityProfiles.put({
+    await getDB().identityProfiles.put({
       ...profile,
       userId: this.userId,
       lastUpdated: new Date()
@@ -165,7 +177,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getIdentityProfile(): Promise<IdentityProfile | null> {
-    const profile = await db.identityProfiles
+    const profile = await getDB().identityProfiles
       .where('userId')
       .equals(this.userId)
       .first();
@@ -183,14 +195,14 @@ export class LocalAutonomyStore implements AutonomyStore {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    const existing = await db.streaks
+    const existing = await getDB().streaks
       .where('userId')
       .equals(this.userId)
       .first();
     
     if (!existing) {
       // First streak
-      await db.streaks.add({
+      await getDB().streaks.add({
         userId: this.userId,
         current: 1,
         longest: 1,
@@ -225,7 +237,7 @@ export class LocalAutonomyStore implements AutonomyStore {
       if (newCurrent >= 60 && !milestones.sixty) milestones.sixty = true;
       if (newCurrent >= 100 && !milestones.hundred) milestones.hundred = true;
       
-      await db.streaks.update(existing.id!, {
+      await getDB().streaks.update(existing.id!, {
         current: newCurrent,
         longest: newLongest,
         lastActivity: today,
@@ -233,7 +245,7 @@ export class LocalAutonomyStore implements AutonomyStore {
       });
     } else {
       // Streak broken
-      await db.streaks.update(existing.id!, {
+      await getDB().streaks.update(existing.id!, {
         current: 1,
         longest: existing.longest,
         lastActivity: today,
@@ -243,7 +255,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getStreak(): Promise<StreakData> {
-    const streak = await db.streaks
+    const streak = await getDB().streaks
       .where('userId')
       .equals(this.userId)
       .first();
@@ -280,8 +292,8 @@ export class LocalAutonomyStore implements AutonomyStore {
     
     // Check if user has completed all Phase 1 modules
     const [responses, identityProfiles] = await Promise.all([
-      db.responses.where('userId').equals(userId).toArray(),
-      db.identityProfiles.where('userId').equals(userId).first()
+      getDB().responses.where('userId').equals(userId).toArray(),
+      getDB().identityProfiles.where('userId').equals(userId).first()
     ]);
     
     const baselineComplete = responses.some(r => r.assessmentId === 'baseline-mirror');
@@ -289,9 +301,9 @@ export class LocalAutonomyStore implements AutonomyStore {
     
     // Check if user has completed Phase 2 modules
     const [disconfirmGames, schemaReclaims, influenceSources] = await Promise.all([
-      db.disconfirmGames.where('userId').equals(userId).toArray(),
-      db.schemaReclaims.where('userId').equals(userId).toArray(),
-      db.influenceSources.where('userId').equals(userId).toArray()
+      getDB().disconfirmGames.where('userId').equals(userId).toArray(),
+      getDB().schemaReclaims.where('userId').equals(userId).toArray(),
+      getDB().influenceSources.where('userId').equals(userId).toArray()
     ]);
     
     const phase2Complete = disconfirmGames.length > 0 && schemaReclaims.length > 0 && influenceSources.length > 0;
@@ -310,7 +322,7 @@ export class LocalAutonomyStore implements AutonomyStore {
         }
       };
       
-      await db.milestones.add(milestone);
+      await getDB().milestones.add(milestone);
     }
   }
 
@@ -332,10 +344,10 @@ export class LocalAutonomyStore implements AutonomyStore {
       sourceAudits
     ] = await Promise.all([
       this.getAllResponses(),
-      db.profiles.where('userId').equals(this.userId).toArray(),
-      db.identityProfiles.where('userId').equals(this.userId).toArray(),
-      db.streaks.where('userId').equals(this.userId).toArray(),
-      db.metadata.toArray(),
+      getDB().profiles.where('userId').equals(this.userId).toArray(),
+      getDB().identityProfiles.where('userId').equals(this.userId).toArray(),
+      getDB().streaks.where('userId').equals(this.userId).toArray(),
+      getDB().metadata.toArray(),
       this.getDisconfirmGames(this.userId),
       this.getSchemaReclaims(this.userId),
       this.getInfluenceSources(this.userId),
@@ -383,27 +395,27 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   async clearData(): Promise<void> {
     await Promise.all([
-      db.responses.where('userId').equals(this.userId).delete(),
-      db.profiles.where('userId').equals(this.userId).delete(),
-      db.identityProfiles.where('userId').equals(this.userId).delete(),
-      db.streaks.where('userId').equals(this.userId).delete(),
-      db.metadata.clear(),
+      getDB().responses.where('userId').equals(this.userId).delete(),
+      getDB().profiles.where('userId').equals(this.userId).delete(),
+      getDB().identityProfiles.where('userId').equals(this.userId).delete(),
+      getDB().streaks.where('userId').equals(this.userId).delete(),
+      getDB().metadata.clear(),
       // Phase 2 tables
-      db.disconfirmGames.where('userId').equals(this.userId).delete(),
-      db.schemaReclaims.where('userId').equals(this.userId).delete(),
-      db.influenceSources.where('userId').equals(this.userId).delete(),
-      db.dailyReflections.where('userId').equals(this.userId).delete(),
-      db.badges.where('userId').equals(this.userId).delete(),
-      db.milestones.where('userId').equals(this.userId).delete(),
+      getDB().disconfirmGames.where('userId').equals(this.userId).delete(),
+      getDB().schemaReclaims.where('userId').equals(this.userId).delete(),
+      getDB().influenceSources.where('userId').equals(this.userId).delete(),
+      getDB().dailyReflections.where('userId').equals(this.userId).delete(),
+      getDB().badges.where('userId').equals(this.userId).delete(),
+      getDB().milestones.where('userId').equals(this.userId).delete(),
       // Phase 3 tables
-      db.argumentFlips.where('userId').equals(this.userId).delete(),
-      db.sourceAudits.where('userId').equals(this.userId).delete()
+      getDB().argumentFlips.where('userId').equals(this.userId).delete(),
+      getDB().sourceAudits.where('userId').equals(this.userId).delete()
     ]);
   }
 
   // Metadata
   async getMetadata(): Promise<Record<string, any>> {
-    const records = await db.metadata.toArray();
+    const records = await getDB().metadata.toArray();
     const metadata: Record<string, any> = {};
     records.forEach(record => {
       metadata[record.key] = record.value;
@@ -412,12 +424,12 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async setMetadata(key: string, value: any): Promise<void> {
-    await db.metadata.put({ key, value });
+    await getDB().metadata.put({ key, value });
   }
 
   // Phase 2: Disconfirm Game
   async saveDisconfirmGame(game: DisconfirmGame): Promise<void> {
-    await db.disconfirmGames.add({
+    await getDB().disconfirmGames.add({
       ...game,
       userId: this.userId,
       timestamp: new Date(game.timestamp)
@@ -425,7 +437,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getDisconfirmGames(userId: string): Promise<DisconfirmGame[]> {
-    const games = await db.disconfirmGames
+    const games = await getDB().disconfirmGames
       .where('userId')
       .equals(userId)
       .toArray();
@@ -438,7 +450,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Phase 2: Schema Reclaim
   async saveSchemaReclaim(session: SchemaReclaim): Promise<void> {
-    await db.schemaReclaims.add({
+    await getDB().schemaReclaims.add({
       ...session,
       userId: this.userId,
       timestamp: new Date(session.timestamp)
@@ -446,7 +458,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getSchemaReclaims(userId: string): Promise<SchemaReclaim[]> {
-    const sessions = await db.schemaReclaims
+    const sessions = await getDB().schemaReclaims
       .where('userId')
       .equals(userId)
       .toArray();
@@ -459,14 +471,14 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Phase 2: Influence Map
   async saveInfluenceSource(source: InfluenceSource): Promise<void> {
-    await db.influenceSources.add({
+    await getDB().influenceSources.add({
       ...source,
       userId: this.userId
     });
   }
 
   async getInfluenceSources(userId: string): Promise<InfluenceSource[]> {
-    return db.influenceSources
+    return getDB().influenceSources
       .where('userId')
       .equals(userId)
       .toArray();
@@ -474,7 +486,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Phase 2: Daily Reflections
   async saveDailyReflection(reflection: DailyReflection): Promise<void> {
-    await db.dailyReflections.add({
+    await getDB().dailyReflections.add({
       ...reflection,
       userId: this.userId,
       date: new Date(reflection.date)
@@ -482,7 +494,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getDailyReflections(userId: string): Promise<DailyReflection[]> {
-    const reflections = await db.dailyReflections
+    const reflections = await getDB().dailyReflections
       .where('userId')
       .equals(userId)
       .toArray();
@@ -495,7 +507,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Phase 2: Badges
   async unlockBadge(badge: Badge): Promise<void> {
-    await db.badges.add({
+    await getDB().badges.add({
       ...badge,
       userId: this.userId,
       unlockedAt: new Date(badge.unlockedAt)
@@ -503,7 +515,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getBadges(userId: string): Promise<Badge[]> {
-    const badges = await db.badges
+    const badges = await getDB().badges
       .where('userId')
       .equals(userId)
       .toArray();
@@ -516,7 +528,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Phase 2: Milestones
   async saveMilestone(milestone: Milestone): Promise<void> {
-    await db.milestones.add({
+    await getDB().milestones.add({
       ...milestone,
       userId: this.userId,
       achievedAt: new Date(milestone.achievedAt)
@@ -524,7 +536,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getMilestones(userId: string): Promise<Milestone[]> {
-    const milestones = await db.milestones
+    const milestones = await getDB().milestones
       .where('userId')
       .equals(userId)
       .toArray();
@@ -537,7 +549,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Phase 3: Argument Flip
   async saveArgumentFlip(flip: ArgumentFlip): Promise<void> {
-    await db.argumentFlips.add({
+    await getDB().argumentFlips.add({
       ...flip,
       userId: this.userId,
       timestamp: new Date(flip.timestamp)
@@ -545,7 +557,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getArgumentFlips(userId: string): Promise<ArgumentFlip[]> {
-    const flips = await db.argumentFlips
+    const flips = await getDB().argumentFlips
       .where('userId')
       .equals(userId)
       .toArray();
@@ -558,7 +570,7 @@ export class LocalAutonomyStore implements AutonomyStore {
 
   // Phase 3: Source Audit
   async saveSourceAudit(audit: SourceAudit): Promise<void> {
-    await db.sourceAudits.add({
+    await getDB().sourceAudits.add({
       ...audit,
       userId: this.userId,
       date: new Date(audit.date)
@@ -566,7 +578,7 @@ export class LocalAutonomyStore implements AutonomyStore {
   }
 
   async getSourceAudits(userId: string): Promise<SourceAudit[]> {
-    const audits = await db.sourceAudits
+    const audits = await getDB().sourceAudits
       .where('userId')
       .equals(userId)
       .toArray();
